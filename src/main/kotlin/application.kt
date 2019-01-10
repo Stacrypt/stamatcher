@@ -14,6 +14,25 @@ fun Application.module() {
     install(Routing)
 
     routing {
+        route("/markets") {
+            get{
 
+            }
+        }
+
+        route("/assets") {
+
+        }
+
+        route("/orders") {
+
+        }
+
+        route("/deposits") {
+
+        }
+
+        route("/withdraws") {
+        }
     }
 }
