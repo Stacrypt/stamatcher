@@ -1,21 +1,24 @@
 import io.ktor.application.*
-import io.ktor.features.*
-import io.ktor.http.*
 import io.ktor.http.cio.websocket.*
-import io.ktor.response.*
 import io.ktor.routing.*
-import io.ktor.server.engine.embeddedServer
-import io.ktor.server.netty.EngineMain
-import io.ktor.server.netty.Netty
 import io.ktor.sessions.*
 import io.ktor.util.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.channels.consumeEach
-import org.apache.log4j.BasicConfigurator
 import websocket.SubscriberSession
+import websocket.WebsocketServer
 import java.time.Duration
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
+
+val websocketServer = WebsocketServer()
+
+private suspend fun receivedMessage(id: String, command: String) {
+    when {
+        command.startsWith("/time") -> websocketServer.time()
+    }
+}
+
 
 fun Application.module() {
     install(Routing)
@@ -47,7 +50,7 @@ fun Application.module() {
 
             // We notify that a member joined by calling the server handler [memberJoin]
             // This allows to associate the session id to a specific WebSocket connection.
-            server.memberJoin(session.id, this)
+//            websocketServer.memberJoin(session.id, this)
 
             try {
                 // We starts receiving messages (frames).
@@ -66,7 +69,7 @@ fun Application.module() {
             } finally {
                 // Either if there was an error, of it the connection was closed gracefully.
                 // We notify the server that the member left.
-                server.memberLeft(session.id, this)
+//                websocketServer.memberLeft(session.id, this)
             }
         }
 
