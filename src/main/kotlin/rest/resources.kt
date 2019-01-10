@@ -17,13 +17,37 @@ data class MarketStatus(
 enum class OrderSide { BUY, SELL }
 enum class OrderType { MARKET, LIMIT, STOP, STOP_LIMIT }
 enum class OrderStatus {
-    LIQUID, // Active
-    FINISH, // Fully filled
-    DISCONTINUED, // Partially filled (Inactive)
-    STOPPED,
-    CANCELED,
-    KILLED
+    LIQUID, // Open order (Active)
+    FULLFILLED, // Fully filled (Inactive)
+    PARTFILLED, // Partially filled (Inactive)
+    WITING, // When stop or stop-limit waiting for trigger (Inactive)
+    CANCELED, // Manually canceled (Inactive)
+    KILLED // When killOrFill option is enable and couldn't fully filled (Inactive)
 }
 
-data class Order(val orderId: String, val pair: String, val status:)
+data class Order(
+    val createdAt: Long,
+    val userId: String,
+    val orderId: String,
+    val pair: String,
+    val totalAmount: Long,
+    val filledAmount: Long = 0L,
+    val limitPrice: Long?,
+    val stopPrice: Long?,
+    val side: OrderSide,
+    val type: OrderType,
+    val status: OrderStatus,
+    val killOrFill: Boolean = false
+)
+
+enum class FillRole { MAKER, TAKER }
+data class Fill(
+    val createdAt: Long,
+    val orderId: String,
+    val pair: String,
+    val price: Long,
+    val amount: Long,
+    val fee: Long,
+    val role: FillRole
+)
 
