@@ -19,6 +19,7 @@ dependencies {
     compile("com.fasterxml.jackson.core:jackson-core:jar:2.9.8")
     compile("io.ktor:ktor-server-core:$ktorVersion")
     compile("io.ktor:ktor-server-netty:$ktorVersion")
+    compile("io.ktor:ktor-websockets:$ktorVersion")
     compile("org.apache.kafka:kafka-clients:2.1.0")
 
     compile("org.apache.logging.log4j:log4j-core:jar:2.11.1")
